@@ -1,0 +1,66 @@
+{% extends 'base.html' %}
+{% block body %}
+
+<section id = "interface">
+    <div class ="navigation">
+        <div class="wrapper">
+            <form class="search-wrapper" action="/stock" method="get">
+                <label>
+                     <p> From:</p> 
+                    <input class='date' type="date" name="fromDate" value="Today"/>
+                </label>
+                <label>
+                    <p> To:</p>
+                    <input type="date" class='date' name="toDate" data-value="=7" value="After one week"/>
+                </label>
+                <input name="name" id = 'input' autofocus name='ticker' list = "tickers" placeholder="Search Ticker Name">
+                <datalist id ="tickers" > 
+                    <option disabled selected> Tickers </option>
+                    {%for ticker in tickers%}
+                        <option >{{ticker}}</option>
+                    {% endfor %}
+                </datalist>
+                <button id = 'submit' type="submit"><i class="material-icons"> search </i></button>
+            </form>           
+        </div>
+    </div>
+    <div>
+        <div class="companyADDfirst">
+            <div class="info"><h1>Roaster</h1></div>
+            <table class="table table-hover">
+                <thead>
+                    <tr>
+                        <th>Name Ticker</th>
+                        <th>Name Company</th>
+                        <th>Sector</th>
+                        <th>Industry</th>
+                        <th>Add to portfolio</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for infoStock in infoStocks %}
+                        <tr>
+                            <td>{{infoStock['tickerName']}}</td>
+                            <td>{{infoStock['longName']}}</td>
+                            <td>{{infoStock['sector']}}</td>
+                            <td>{{infoStock['industry']}}</td>
+                            <td><input class="form-check-input" type="checkbox" name="checkStock" id="inlineCheckbox1" value="{{infoStock['tickerName']}}">
+                                <label class="form-check-label" for="inlineCheckbox1">&nbsp;</label></td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            <form class = PortfolioForm action="/portfolioStatisitcs" method="get">
+                <div class="col-md-3 mb-3">
+                    <label for="validationCustom05" name = 'PortfolioName'>Portfolio Name</label>
+                    <input type="text" class="form-control" id="PortfolioName" name="name" placeholder="set Name" required>
+                    <div class="invalid-feedback">
+                        Please provide a valid name.
+                    </div>
+                </div>
+                <button id = 'submit' type="submit"><i> Submit Portfolio</i></button>
+            </form>
+        </div>
+    </div>
+</section>
+{% endblock%}

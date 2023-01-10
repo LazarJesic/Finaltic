@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+{% block body %}
+<section id = "interface">
+    <div class ="navigation">
+        <div class="companyADDfirst">
+            <p> {{PortfolioName}}</p>
+            {{%for name in names%}}
+                <p>{{name}}</p>
+            {{%endfor%}}
+        </div>
+    </div>
+</section>
+
+{% endblock%}

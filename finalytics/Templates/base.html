@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='css/style.css') }}">
+    <link  rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+    {% block head %}{% endblock %}
+</head>
+<body>
+    <section id="menu">
+        <div class ='background'></div>
+        <div class ='logo'>
+            <i class="material-icons" id = 'logo-img'> analytics </i>
+            <h2 class="text" id = 'logo-txt' >Finalytic</h2>
+        </div>
+        <div class = "items">
+            <div class = "portfolio">
+                <p>User</p>
+                {% if current_user.is_authenticated %}
+                <li><i class="material-icons" id = 'icons'> manage_accounts</i> <a href = "./account"> Account </a></li>
+                <li><i class="material-icons" id = 'icons'> logout </i> <a href="./logout"> LogOut </a></li>
+                {% else %}
+                <li><i class="material-icons" id = 'icons'> login </i> <a href = "./login"> Login </a></li>
+                <li><i class="material-icons" id = 'icons'> app_registration </i> <a href="./register"> Register </a></li>
+                {% endif %}
+
+            </div>
+            <div class = "portfolio">
+                <br><br>
+                <p>Stock</p>
+                <li><i class="material-icons" id = 'icons'> show_chart </i> <a href = "./"> Analyze stock </a></li>
+                <li><i class="material-icons" id = 'icons'> stacked_line_chart </i> <a href="#"> Stock comparison </a></li>
+            </div>
+            <div class = "portfolio">
+                <br><br>
+                <p>Portfolio </p>
+                <li><i class="material-icons" id = 'icons'> schema </i> <a href = "./portfolio"> Make a portfolio</a></li>
+                <li><i class="material-icons" id = 'icons'> query_stats </i> <a href="./portfolioStatisitcs"> Descriptive Statistics </a></li>
+                <li><i class="material-icons" id = 'icons'> insights </i> <a href="#"> Predictive Statistics </a></li>
+            </div>
+    </section>
+        <div class="row">
+            <div class="col-md-8">
+            {% with messages = get_flashed_messages(with_categories=true) %}
+                {% if messages %}
+                {% for category, message in messages %}
+                    <div class="alert alert-{{ category }}">
+                    {{ message }}
+                    </div>
+                {% endfor %}
+                {% endif %}
+            {% endwith %}
+            {% block content %}{% endblock %}
+            </div>
+        </div>
+    
+    {% block body %}{% endblock %}
+    <script type ='module' src="{{ url_for('static', filename='js/index.js')}}" data-turbolinks-track="reload"></script>
+
+</body>
+</html>

@@ -1,0 +1,188 @@
+{% extends 'base.html' %}
+{% block body %}
+
+<section id = "interface">
+    <div class ="navigation">
+        <div class="wrapper">
+            <form class="search-wrapper" action="/stock" method="get">
+                <label>
+                     <p> From:</p> 
+                    <input class='date' type="date" name="fromDate" value="Today"/>
+                </label>
+                <label>
+                    <p> To:</p>
+                    <input type="date" class='date' name="toDate" data-value="=7" value="After one week"/>
+                </label>
+                <input name="name" id = 'input' autofocus name='ticker' list = "tickers" placeholder="Search Ticker Name">
+                <datalist id ="tickers" > 
+                    <option disabled selected> Tickers </option>
+                    {%for ticker in tickers%}
+                        <option >{{ticker}}</option>
+                    {% endfor %}
+                </datalist>
+                <button id = 'submit' type="submit"><i class="material-icons"> search </i></button>
+            </form>           
+        </div>
+    </div>
+    <div>
+        <div class="companyADDfirst">
+            <div class="info"> 
+                <p> Analysis for {{nameL}} ({{stock}})</p> 
+                <img class = 'companyLogo' src ={{companyLogo}}>
+                
+                <form  method="post"><input  type="submit" name='Submit_portfolio' id = 'addPortfolio' value="Add to Portfolio"> </form>
+            </div>
+        </div>
+        <br>
+        <div class="summary"><div>{{summary}}</div></div><br><br>
+        <div class="companyADDsecond">
+            <button class="tab"> <h1>Descriptive Analytics</h1> </button>
+        </div>
+        <div>
+            <div class="content">
+                <div class="figure">
+                    <div id='chart1' class='chart1'></div> 
+                    <div class="outerPrices">
+                        <h2>{{stock}} Historical Financial informations</h2>
+                        <div class = 'prices'>
+                            {{tablePrice|safe }}
+                        </div>
+                    </div>
+                </div>
+                <br><br>
+                <div class="figure">
+                    <div id='chart2' class='chart2'></div>     
+                    <div class="outerPrices">
+                
+                        <div class = 'stats'>
+                            <h2>SPY Descriptive statistics</h2><br>
+                            <p>The Standard & Poor's 500 Index (S&P 500) is the most common benchmark used to determine the state of the overall economy. It consist of 500 large 
+                                U.S. based company’s stocks. </p>
+                            {{SPYStats|safe }}
+                            <h2>{{stock}} Descriptive statistics</h2>
+                            {{tableStats|safe }}
+                            <div id="containerCards">               
+                                <div class="kpi-card purple">
+                                <span class="card-value">{{dailyReturn}} % </span>
+                                <span class="card-text"> Daily returns (Expected)</span>
+                                <i class="fas fa-shopping-cart icons"></i>
+                            </div>
+                                <div class="kpi-card grey-dark">
+                                <span class="card-value"> {{weeklyReturn}} % </span>
+                                <span class="card-text">Weekly retruns (Expected) calculated on 5 days</span>
+                                    <i class="fas fa-shopping-cart icons"></i>
+                            </div>
+                                <div class="kpi-card red">
+                                <span class="card-value">{{yearlyReturn}} %</span>
+                                <span class="card-text">Yearly return (Expected), calculated on 251 days</span>
+                                <i class="fas fa-shopping-cart icons"></i>
+                            </div>
+                        </div>
+                        </div>
+                    </div>
+                </div>
+                <br> <br><br>
+                <div class="figure">
+                    <div id='chart3' class='chart3'></div>  
+                    <div class="outerPrices">
+                        <div class = 'stats'>
+                            <h2>CAPM Analysis</h2><br>
+                            <p>It should be noticed that this CAPM analysis has been done by using daily returns of {{stock}} and SP500, and a R <sub>f</sub> = 0</p><br>
+                            <div class="capmFormula"> <h5>R<sub>{{stock}}</sub> = &alpha; + &beta; (R<sub>SPY</sub> - R <sub>f</sub>) + &epsilon; </h5></div>
+                            <br>
+                            <p><b>Alpha | &alpha; </b>  describes an investment strategy's ability to beat the market,  also often referred to as “excess return” or “abnormal rate of return,” which
+                                refers to the idea that markets are efficient, and so there is no way to systematically earn returns that exceed the
+                                broad market as a whole. <a href="https://www.investopedia.com/terms/a/alpha.asp">(Investopedia.com)</a></p>
+                            <br>
+                            <p><b>Beta | &beta;</b>  is a measure of the systematic risk or volatility of a stock or portfolio in relation to a global market, rather than a domestic market. <a href="https://www.investopedia.com/terms/i/international-beta.asp">(Investopedia.com)</a></p>
+                            <br>
+                            <p><b>r-value |</b> is a number between -1 and 1 (-1 ≤ r ≤ 1). r close to -1: means that there is negative correlation between the variables. r close to 0: indicates that the 2 variables are not correlated.r close to 1: indicates a positive linear relationship between the 2 variables <a href="https://quantifyinghealth.com/relationship-between-r-and-r-squared/#:~:text=r%20is%20a%20number%20between,linear%20relationship%20exists%20between%20them)">(Quantifyinghealth.com)</a></p>
+                            <br><br>
+                            <div id="containerCards">               
+                                <div class="kpi-card purple">
+                                <span class="card-value">{{intercept}} </span>
+                                <span class="card-text">Alpha | &alpha;</span>
+                                    <i class="fas fa-shopping-cart icons"></i>
+                                </div>
+                                    <div class="kpi-card grey-dark">
+                                <span class="card-value"> {{beta}} </span>
+                                <span class="card-text">Beta| &beta;</span>
+                                    <i class="fas fa-shopping-cart icons"></i>
+                                </div>
+                                <div class="kpi-card red">
+                                <span class="card-value">{{rvalue}} </span>
+                                <span class="card-text">r-value</span>
+                                    <i class="fas fa-shopping-cart icons"></i>
+                                </div>
+                                <br><br>
+                            </div>
+                        </div>
+                    </div>   
+                </div> 
+            </div>
+        </div>
+        <div class="companyADDthird"></div>
+            <button class="tab"><h1>Predictive Analytics</h1></button>
+            <div class="content">
+                <div class="figure">
+                    <div id='chart4' class='chart4'></div>  
+                    <div class="outerPrices">
+                        <div class = 'stats'>
+                            <h1></h1><br>
+                            <p>Rrolling average is a calculation to analyze data points by creating a series of averages of different subsets of the full data set. 
+                                The standard deviation is a measure of the amount of variation or dispersion of a set of values.</p><br>
+                        </div>
+                    </div>
+                </div>
+                <div class="figure">
+                    <div id='chart5' class='chart5'></div>  
+                    <div class="outerPrices">
+                        <div class = 'stats'>
+                            <h2>Arima optimization result: {{arima}}</h2><br><br>
+                            <p>MSE: measures the average of the squares of the errors—that is, the average squared difference between the estimated values and the actual value <br>
+                                MAE: is calculated as the sum of absolute errors divided by the sample size
+                            </p><br>
+                            <div id="containerCards">               
+                                <div class="kpi-card purple">
+                                <span class="card-value">{{r2_arima}} </span>
+                                <span class="card-text">r2 ARIMA|</span>
+                                    <i class="fas fa-shopping-cart icons"></i>
+                                </div>
+                                    <div class="kpi-card grey-dark">
+                                <span class="card-value"> {{mse_arima}} </span>
+                                <span class="card-text">MSE ARIMA|</span>
+                                    <i class="fas fa-shopping-cart icons"></i>
+                                </div>
+                                <div class="kpi-card red">
+                                <span class="card-value">{{mae_arima}} </span>
+                                <span class="card-text">MAE ARIMA|</span>
+                                    <i class="fas fa-shopping-cart icons"></i>
+                                </div>
+                                <br><br>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class = 'stats'>
+                  
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<script src='https://cdn.plot.ly/plotly-latest.min.js'></script>
+<script type='text/javascript'>
+  var graphs1 = {{graphJSON1|safe}};
+  Plotly.plot('chart1',graphs1,{});
+  var graphs2 = {{graphJSON2|safe}};
+  Plotly.plot('chart2',graphs2,{});
+  var graphs3 = {{graphJSON3|safe}};
+  Plotly.plot('chart3',graphs3,{});
+  var graphs4 = {{graphJSON4|safe}};
+  Plotly.plot('chart4',graphs4,{});
+  var graphs5 = {{graphJSON5|safe}};
+  Plotly.plot('chart5',graphs5,{});
+</script>
+
+{% endblock%}

@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+{% block body %}
+
+    <section id = "interface">
+        <div class ="navigation">
+            <div class="wrapper">
+                <form class="search-wrapper" action="/stock" method="get">
+                    <label>
+                         <p> From:</p> 
+                        <input class='date' type="date" name="fromDate" value="Today"/>
+                    </label>
+                    <label>
+                        <p> To:</p>
+                        <input type="date" class='date' name="toDate" data-value="=7" value="After one week"/>
+                    </label>
+                    <input name="name" id = 'input' autofocus name='ticker' list = "tickers" placeholder="Search Ticker Name">
+                    <datalist id ="tickers" > 
+                        <option disabled selected> Tickers </option>
+                        {%for ticker in tickers%}
+                            <option >{{ticker}}</option>
+                        {% endfor %}
+                    </datalist>
+                    <button id = 'submit' type="submit"><i class="material-icons"> search </i></button>
+                </form>     
+                
+            </div>
+        </div>
+    </section>
+    
+
+{% endblock%}
+
+
