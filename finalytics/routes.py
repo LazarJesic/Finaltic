@@ -92,7 +92,8 @@ def stock():
             SPYStats = spy_stats('Returns',fromDate,toDate,timeframe)
             SPYStats = round(SPYStats ,5).to_html(header="true",table_id='stats',index=False )
             #Download info to display
-            info = yf.Ticker(stock.name).info
+            info = yf.download(stock.name)
+            print(info)
             nameL = info['longName']
             summary = info['longBusinessSummary']
             companyLogo = info['logo_url']
@@ -137,7 +138,7 @@ def portfolio():
         stocks = Ticker.query.order_by(Ticker.name).all()
         infoStocks = []
         for stock in stocks:
-            info = yf.Ticker(stock.name).info
+            info = yf.download(stock.name)
             info['tickerName'] = stock.name
             infoStocks.append(info)
         return render_template('portfolio.html', stocks = stocks,infoStocks=infoStocks,tickers=tickers)
